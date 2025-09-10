@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import pickle
 import os
-import gdown
+import requests
 
 # -------------------------------
 # Page configuration
@@ -16,14 +16,26 @@ st.set_page_config(
 # -------------------------------
 # Model download settings
 # -------------------------------
-
+# Replace this with your direct download link from Dropbox or GitHub Release
+MODEL_URL = "https://www.dropbox.com/scl/fi/ufmclyehxqk1vrgxkomci/Fund_Allocation.pk1?rlkey=63rr8tjq7kq7fr6sowhi42fvu&st=tb34kq99&dl=0"
 MODEL_PATH = "Fund_Allocation.pk1"
-MODEL_URL = "https://drive.google.com/uc?id=14BqODxR2fajbKlNVpoihZqYUBQb1Bzt7&export=download"
 
-if not os.path.exists(MODEL_PATH):
-    st.info("Downloading model... This may take several minutes for large files (~687MB).")
-    gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
+# -------------------------------
+# Download model if not present
+# -------------------------------
+@st.cache_data(show_spinner=False)
+def download_model():
+    if not os.path.exists(MODEL_PATH):
+        st.info("Downloading model (~687 MB). This may take several minutes...")
+        response = requests.get(MODEL_URL, stream=True)
+        response.raise_for_status()
+        with open(MODEL_PATH, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+    return MODEL_PATH
 
+download_model()
 
 # -------------------------------
 # Load the model
