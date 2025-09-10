@@ -16,13 +16,14 @@ st.set_page_config(
 # -------------------------------
 # Model download settings
 # -------------------------------
-MODEL_URL = "https://drive.google.com/uc?id=14BqODxR2fajbKlNVpoihZqYUBQb1Bzt7"  # Google Drive File ID
-MODEL_PATH = "Fund_Allocation.pk1"
 
-# Download model if not present
+MODEL_PATH = "Fund_Allocation.pk1"
+MODEL_URL = "https://drive.google.com/uc?id=14BqODxR2fajbKlNVpoihZqYUBQb1Bzt7&export=download"
+
 if not os.path.exists(MODEL_PATH):
-    st.info("Downloading model... This may take a few minutes.")
+    st.info("Downloading model... This may take several minutes for large files (~687MB).")
     gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
+
 
 # -------------------------------
 # Load the model
