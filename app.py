@@ -14,30 +14,16 @@ st.set_page_config(
 )
 
 # -------------------------------
-# Model download settings
+# Model settings
 # -------------------------------
-MODEL_URL = "https://www.dropbox.com/scl/fi/ufmclyehxqk1vrgxkomci/Fund_Allocation.pk1?rlkey=63rr8tjq7kq7fr6sowhi42fvu&st=tb34kq99&dl=1"
 MODEL_PATH = "Fund_Allocation.pk1"
 
 # -------------------------------
-# Download & load model with progress bar
+# Load model
 # -------------------------------
 @st.cache_resource
 def load_model():
-    """Download the ML model (if not exists) and load it with progress bar."""
-    if not os.path.exists(MODEL_PATH):
-        st.info("Downloading model (~687 MB). This may take a few minutes...")
-        response = requests.get(MODEL_URL, stream=True)
-        total_size = int(response.headers.get('content-length', 0))
-        block_size = 1024 * 1024  # 1 MB
-        progress_bar = st.progress(0)
-
-        with open(MODEL_PATH, "wb") as f:
-            for i, data in enumerate(response.iter_content(block_size)):
-                f.write(data)
-                progress = min((i + 1) * block_size / total_size, 1.0)
-                progress_bar.progress(progress)
-
+    """Load the ML model from local repository."""
     with open(MODEL_PATH, "rb") as f:
         model = pickle.load(f)
     return model
