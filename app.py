@@ -25,7 +25,7 @@ MODEL_PATH = "Fund_Allocations.pk1"
 def load_model():
     """Load the ML model from local repository."""
     with open(MODEL_PATH, "rb") as f:
-        model = pickle.load(f)
+        model = joblib.load(f)
     return model
 
 # Load model
