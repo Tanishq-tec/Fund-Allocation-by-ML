@@ -16,7 +16,7 @@ st.set_page_config(
 # -------------------------------
 # Model settings
 # -------------------------------
-MODEL_PATH = "Fund_Allocation.pk1"
+MODEL_PATH = "Fund_Allocations.pk1"
 
 # -------------------------------
 # Load model
